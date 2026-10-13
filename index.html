@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4시스템 | 아름다운 영상</title>
+<meta name="description" content="4시스템 - 아름다운 영상">
+<style>
+:root{--sky:#4aa8ff;--sky-d:#1f7ae0;--sun:#ffd96b;--bg:#f6fbff;--ink:#1d2b3a;--mute:#5d6b7a}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Malgun Gothic",system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.7}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:#fffffff2;border-bottom:1px solid #e6eef6;z-index:5}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:56px}
+.logo{font-weight:700;color:var(--sky-d);font-size:18px}
+nav a{margin-left:16px;color:var(--ink);text-decoration:none;font-size:15px}
+.hero{background:linear-gradient(180deg,#e8f5ff,#fff);padding:72px 0 56px;text-align:center}
+.hero h1{font-size:clamp(28px,6vw,44px);margin:0 0 8px}
+.hero p{font-size:clamp(17px,3vw,22px);color:var(--mute);margin:0 0 28px}
+.btn{display:inline-block;background:var(--sky-d);color:#fff;border:0;padding:14px 28px;border-radius:999px;font-size:17px;text-decoration:none;cursor:pointer}
+.btn.sun{background:var(--sun);color:#3a2f00}
+section{padding:56px 0}
+section.alt{background:var(--bg)}
+h2{font-size:26px;margin:0 0 20px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.ph{background:#d9dde2;border-radius:12px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:#7b838c;font-size:14px}
+.about{text-align:center;max-width:620px;margin:0 auto;color:var(--mute)}
+form{max-width:520px;margin:0 auto;display:grid;gap:14px}
+label{font-size:15px;font-weight:700}
+input,textarea{width:100%;padding:12px;border:1px solid #c9d6e2;border-radius:10px;font:inherit;margin-top:4px}
+.hp{position:absolute;left:-9999px}
+#msg{text-align:center;min-height:24px;font-weight:700}
+.contact{text-align:center}
+footer{padding:24px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid #e6eef6}
+.fab{position:fixed;right:16px;bottom:16px;z-index:9;box-shadow:0 4px 12px #0003}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="logo">4시스템</span>
+<nav><a href="#about">소개</a><a href="#works">작업</a><a href="#contact">상담</a></nav></div></header>
+
+<div class="hero"><div class="wrap">
+<h1>4시스템</h1>
+<p>아름다운 영상</p>
+<a class="btn" href="#contact">상담 신청하기</a>
+</div></div>
+
+<section id="about"><div class="wrap">
+<h2>소개</h2>
+<p class="about">매니저 4시스템입니다. 자세한 소개 글은 (입력 필요)</p>
+</div></section>
+
+<section id="works" class="alt"><div class="wrap">
+<h2>작업 사례</h2>
+<div class="grid">
+<div class="ph">사진 자리</div><div class="ph">사진 자리</div><div class="ph">사진 자리</div>
+<div class="ph">사진 자리</div><div class="ph">사진 자리</div><div class="ph">사진 자리</div>
+</div></div></section>
+
+<section id="contact"><div class="wrap">
+<h2>상담 신청</h2>
+<form id="f">
+<div><label>이름 *<input name="name" maxlength="50" required></label></div>
+<div><label>연락처 *<input name="phone" maxlength="30" required inputmode="tel"></label></div>
+<div><label>문의 내용<textarea name="message" rows="4" maxlength="1000"></textarea></label></div>
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit" id="b">상담 신청 보내기</button>
+<div id="msg" role="status"></div>
+</form>
+<p class="contact">전화 <a href="tel:01075611719">010-7561-1719</a> · 이메일 dpfhdrjwl1@gmail.com</p>
+</div></section>
+
+<footer>© 4시스템</footer>
+<a class="btn sun fab" href="#contact">상담 신청</a>
+
+<script>
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbxPMzAKBdZwG9j0hmfeTkm5xETiLXyCEfK_hO2H7A_1AjGMOxbCEW56zJkj95Y7qZJazA/exec";
+var f = document.getElementById("f"), msg = document.getElementById("msg"), b = document.getElementById("b");
+f.addEventListener("submit", function (e) {
+  e.preventDefault();
+  var d = new FormData(f);
+  var data = { name: d.get("name"), phone: d.get("phone"), message: d.get("message"), website: d.get("website") };
+  if (!data.name.trim() || !data.phone.trim()) { msg.textContent = "이름과 연락처를 입력해 주세요."; return; }
+  b.disabled = true; msg.textContent = "보내는 중...";
+  fetch(ENDPOINT, { method: "POST", body: JSON.stringify(data) })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      msg.textContent = j.ok ? "접수되었습니다. 곧 연락드릴게요!" : "접수하지 못했어요: " + (j.error || "다시 시도해 주세요.");
+      if (j.ok) f.reset();
+    })
+    .catch(function () { msg.textContent = "전송에 실패했어요. 전화로 문의해 주세요."; })
+    .finally(function () { b.disabled = false; });
+});
+</script>
+</body>
+</html>
