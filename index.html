@@ -6,75 +6,89 @@
 <title>4시스템 | 아름다운 곳의 영상</title>
 <meta name="description" content="감동이 있고 아름다운 영상의 힘입니다 - 4시스템">
 <style>
-:root{--blue:#1a73e8;--blue-d:#1557b0;--ink:#202124;--mute:#5f6368;--line:#dadce0;--bg:#f8f9fa}
+:root{--blue:#4da3ff;--cy:#7df3ff;--ink:#f4f8ff;--mute:#a9b7cc;--line:#ffffff22;--bg:#070b14}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"Malgun Gothic",system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.7}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:5}
+body{margin:0;font-family:"Malgun Gothic",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:fixed;top:0;left:0;right:0;z-index:20;background:#070b14b3;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 header .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
-.logo{font-size:22px;color:var(--mute)}.logo b{color:var(--blue);font-weight:700}
-nav a{margin-left:20px;color:var(--mute);text-decoration:none;font-size:15px}
-nav a:hover{color:var(--blue)}
-.hero{padding:72px 0 40px;text-align:center}
-.hero h1{font-size:clamp(28px,6vw,48px);font-weight:400;margin:0 0 12px;line-height:1.3}
-.hero p{color:var(--mute);font-size:clamp(16px,2.6vw,20px);margin:0 0 28px}
-.btn{display:inline-block;background:var(--blue);color:#fff;border:0;padding:14px 32px;border-radius:999px;font-size:17px;text-decoration:none;cursor:pointer}
-.btn:hover{background:var(--blue-d)}
-.main-video{max-width:960px;margin:32px auto 0;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 1px 6px #0003}
-.main-video video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
-section{padding:64px 0}
-section.alt{background:var(--bg)}
-h2{font-size:28px;font-weight:400;margin:0 0 8px;text-align:center}
-.sub{text-align:center;color:var(--mute);margin:0 0 32px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;align-items:start}
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.card video{width:100%;display:block;background:#000;max-height:520px;object-fit:contain}
-.card p{margin:0;padding:12px 16px;color:var(--mute);font-size:15px}
-.about{text-align:center;max-width:620px;margin:0 auto;font-size:20px}
-form{max-width:520px;margin:0 auto;display:grid;gap:16px}
+.logo{font-size:22px;letter-spacing:1px}.logo b{background:linear-gradient(90deg,var(--blue),var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+nav a{margin-left:20px;color:var(--mute);text-decoration:none;font-size:15px;transition:.2s}
+nav a:hover{color:var(--cy)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:zoom 24s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#070b1480 0%,#070b1433 40%,#070b14 100%)}
+.hero .in{position:relative;z-index:2;padding:0 20px}
+.hero h1{font-size:clamp(32px,7vw,68px);font-weight:700;line-height:1.25;margin:0 0 16px;text-shadow:0 4px 30px #000a;animation:up 1.2s both}
+.hero h1 span{background:linear-gradient(90deg,var(--blue),var(--cy),#fff,var(--blue));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+.hero p{font-size:clamp(16px,2.6vw,22px);color:#e3ecfa;margin:0 0 32px;animation:up 1.2s .3s both}
+.btn{display:inline-block;background:linear-gradient(90deg,#2f7bff,#17c1ff);color:#fff;border:0;padding:15px 36px;border-radius:999px;font-size:17px;text-decoration:none;cursor:pointer;box-shadow:0 0 28px #2f9bff80;transition:.25s}
+.btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 44px #2f9bffcc}
+.hero .btn{animation:up 1.2s .6s both}
+.scroll{position:absolute;bottom:24px;left:50%;z-index:2;color:#fff9;font-size:13px;animation:bob 1.8s infinite}
+section{padding:96px 0}
+h2{font-size:clamp(26px,4vw,38px);font-weight:700;margin:0 0 8px;text-align:center}
+.sub{text-align:center;color:var(--mute);margin:0 0 40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;align-items:start}
+.card{position:relative;border-radius:20px;overflow:hidden;background:#000;border:1px solid var(--line);transition:.4s;box-shadow:0 10px 40px #0008}
+.card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 0 50px #2f9bff55;border-color:#4da3ff88}
+.card video{width:100%;display:block;max-height:560px;object-fit:cover}
+.card p{position:absolute;left:0;right:0;bottom:0;margin:0;padding:40px 18px 14px;background:linear-gradient(0deg,#000d,transparent);font-size:17px}
+.reveal{opacity:0;transform:translateY(40px);transition:1s}
+.reveal.on{opacity:1;transform:none}
+.about{text-align:center;max-width:720px;margin:0 auto;font-size:clamp(22px,3.5vw,32px);font-weight:700;line-height:1.5;background:linear-gradient(90deg,var(--blue),var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent}
+form{max-width:540px;margin:0 auto;display:grid;gap:16px;background:#ffffff0d;border:1px solid var(--line);border-radius:24px;padding:28px}
 label{font-size:15px;color:var(--mute)}
-input,textarea{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;font:inherit;margin-top:4px;color:var(--ink)}
+input,textarea{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;font:inherit;margin-top:4px;color:var(--ink);background:#0b1220}
 input:focus,textarea:focus{outline:2px solid var(--blue);border-color:var(--blue)}
 .hp{position:absolute;left:-9999px}
 #msg{text-align:center;min-height:24px}
 .contact{text-align:center;color:var(--mute);margin-top:24px}
-.contact a{color:var(--blue);text-decoration:none}
-footer{padding:24px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
-.fab{position:fixed;right:16px;bottom:16px;z-index:9;box-shadow:0 2px 8px #0004;padding:12px 22px;font-size:16px}
+.contact a{color:var(--cy);text-decoration:none}
+footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
+.fab{position:fixed;right:16px;bottom:16px;z-index:19;padding:12px 22px;font-size:16px}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes shine{to{background-position:300% 0}}
+@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.12)}}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <header><div class="wrap"><span class="logo"><b>4</b>시스템</span>
 <nav><a href="#places">아름다운 곳</a><a href="#about">소개</a><a href="#contact">상담</a></nav></div></header>
 
-<div class="hero"><div class="wrap">
-<h1>감동이 있고<br>아름다운 영상의 힘입니다</h1>
+<div class="hero">
+<video src="media/h1.mp4" poster="media/h1.jpg" autoplay muted loop playsinline></video>
+<div class="in">
+<h1><span>감동이 있고</span><br>아름다운 영상의 힘입니다</h1>
 <p>아름다운 곳의 풍경을 영상으로 담습니다</p>
 <a class="btn" href="#contact">상담 신청하기</a>
-<div class="main-video">
-<video src="media/v1.mp4" poster="media/v1.jpg" controls muted loop playsinline preload="metadata"></video>
 </div>
-</div></div>
+<div class="scroll">아래로 ↓</div>
+</div>
 
-<section id="places" class="alt"><div class="wrap">
-<h2>아름다운 곳</h2>
-<p class="sub">직접 담은 장면들입니다</p>
+<section id="places"><div class="wrap">
+<h2 class="reveal">아름다운 곳</h2>
+<p class="sub reveal">직접 담은 장면들입니다</p>
 <div class="grid">
-<div class="card"><video src="media/v2.mp4" poster="media/v2.jpg" controls muted loop playsinline preload="none"></video><p>눈 쌓인 거리</p></div>
-<div class="card"><video src="media/v3.mp4" poster="media/v3.jpg" controls muted loop playsinline preload="none"></video><p>설산 풍경</p></div>
-<div class="card"><video src="media/v4.mp4" poster="media/v4.jpg" controls muted loop playsinline preload="none"></video><p>겨울의 한 장면</p></div>
+<div class="card reveal"><video src="media/s1.mp4" poster="media/s1.jpg" muted loop playsinline preload="none"></video><p>노을 지는 산</p></div>
+<div class="card reveal"><video src="media/s2.mp4" poster="media/s2.jpg" muted loop playsinline preload="none"></video><p>푸른 자연</p></div>
+<div class="card reveal"><video src="media/v1.mp4" poster="media/v1.jpg" muted loop playsinline preload="none"></video><p>겨울 여행</p></div>
+<div class="card reveal"><video src="media/v2.mp4" poster="media/v2.jpg" muted loop playsinline preload="none"></video><p>눈 쌓인 거리</p></div>
+<div class="card reveal"><video src="media/v3.mp4" poster="media/v3.jpg" muted loop playsinline preload="none"></video><p>설산 풍경</p></div>
+<div class="card reveal"><video src="media/v4.mp4" poster="media/v4.jpg" muted loop playsinline preload="none"></video><p>겨울의 한 장면</p></div>
 </div></div></section>
 
 <section id="about"><div class="wrap">
-<h2>소개</h2>
-<p class="about">감동이 있고 아름다운 영상의 힘입니다</p>
+<p class="about reveal">감동이 있고<br>아름다운 영상의 힘입니다</p>
 </div></section>
 
-<section id="contact" class="alt"><div class="wrap">
-<h2>상담 신청</h2>
-<p class="sub">남겨 주시면 확인 후 연락드립니다</p>
-<form id="f">
+<section id="contact"><div class="wrap">
+<h2 class="reveal">상담 신청</h2>
+<p class="sub reveal">남겨 주시면 확인 후 연락드립니다</p>
+<form id="f" class="reveal">
 <div><label>이름 *<input name="name" maxlength="50" required></label></div>
 <div><label>연락처 *<input name="phone" maxlength="30" required inputmode="tel"></label></div>
 <div><label>문의 내용<textarea name="message" rows="4" maxlength="1000"></textarea></label></div>
@@ -85,10 +99,24 @@ footer{padding:24px 0;text-align:center;color:var(--mute);font-size:14px;border-
 <p class="contact">전화 <a href="tel:01075611719">010-7561-1719</a> · 이메일 dpfhdrjwl1@gmail.com</p>
 </div></section>
 
-<footer>© 4시스템</footer>
+<footer>© 4시스템 · 일부 영상: Pexels (Engin Akyurt, Matthias Groeneveld, Chanaka Herath)</footer>
 <a class="btn fab" href="#contact">상담 신청</a>
 
 <script>
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("on"); });
+}, { threshold: 0.15 });
+document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+var vio = new IntersectionObserver(function (es) {
+  es.forEach(function (e) {
+    var v = e.target.querySelector("video");
+    if (!v) return;
+    if (e.isIntersecting) { v.play().catch(function () {}); } else { v.pause(); }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll(".card").forEach(function (c) { vio.observe(c); });
+
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbxPMzAKBdZwG9j0hmfeTkm5xETiLXyCEfK_hO2H7A_1AjGMOxbCEW56zJkj95Y7qZJazA/exec";
 var f = document.getElementById("f"), msg = document.getElementById("msg"), b = document.getElementById("b");
 f.addEventListener("submit", function (e) {
