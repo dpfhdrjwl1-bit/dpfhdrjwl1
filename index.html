@@ -43,7 +43,7 @@ label{font-size:15px;color:var(--mute)}
 input,textarea{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;font:inherit;margin-top:4px;color:var(--ink);background:#0b1220}
 input:focus,textarea:focus{outline:2px solid var(--blue);border-color:var(--blue)}
 .hp{position:absolute;left:-9999px}
-#msg{text-align:center;min-height:24px}
+#msg,.fmsg{text-align:center;min-height:24px}
 .contact{text-align:center;color:var(--mute);margin-top:24px}
 .contact a{color:var(--cy);text-decoration:none}
 footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
@@ -57,7 +57,7 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 </head>
 <body>
 <header><div class="wrap"><span class="logo"><b>4</b>시스템</span>
-<nav><a href="#places">아름다운 곳</a><a href="#about">소개</a><a href="#contact">상담</a></nav></div></header>
+<nav><a href="#places">아름다운 곳</a><a href="#job">직업 체험</a><a href="#about">소개</a><a href="#contact">상담</a></nav></div></header>
 
 <div class="hero">
 <video src="media/h1.mp4" poster="media/h1.jpg" autoplay muted loop playsinline></video>
@@ -81,6 +81,21 @@ footer{padding:28px 0;text-align:center;color:var(--mute);font-size:14px;border-
 <div class="card reveal"><video src="media/v4.mp4" poster="media/v4.jpg" muted loop playsinline preload="none"></video><p>아름다운 눈오는 온천</p></div>
 </div></div></section>
 
+<section id="job"><div class="wrap">
+<h2 class="reveal">직업 체험 신청</h2>
+<p class="sub reveal">체험해 보고 소개할 직업을 하시나요? 신청해 주세요</p>
+<form id="jf" class="reveal">
+<div><label>이름 *<input name="name" maxlength="50" required></label></div>
+<div><label>연락처 *<input name="phone" maxlength="30" required inputmode="tel"></label></div>
+<div><label>하시는 일(직업) *<input name="job" maxlength="100" required></label></div>
+<div><label>지역 *<input name="region" maxlength="100" required></label></div>
+<div><label>체험 가능한 날짜<input name="dates" maxlength="200"></label></div>
+<div><label>소개 한마디<textarea name="message" rows="3" maxlength="1000"></textarea></label></div>
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">체험 신청 보내기</button>
+<div class="fmsg" role="status"></div>
+</form>
+</div></section>
 <section id="about"><div class="wrap">
 <p class="about reveal">감동이 있고<br>아름다운 영상의 힘입니다</p>
 </div></section>
@@ -118,22 +133,25 @@ var vio = new IntersectionObserver(function (es) {
 document.querySelectorAll(".card").forEach(function (c) { vio.observe(c); });
 
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbxPMzAKBdZwG9j0hmfeTkm5xETiLXyCEfK_hO2H7A_1AjGMOxbCEW56zJkj95Y7qZJazA/exec";
-var f = document.getElementById("f"), msg = document.getElementById("msg"), b = document.getElementById("b");
-f.addEventListener("submit", function (e) {
-  e.preventDefault();
-  var d = new FormData(f);
-  var data = { name: d.get("name"), phone: d.get("phone"), message: d.get("message"), website: d.get("website") };
-  if (!data.name.trim() || !data.phone.trim()) { msg.textContent = "이름과 연락처를 입력해 주세요."; return; }
-  b.disabled = true; msg.textContent = "보내는 중...";
-  fetch(ENDPOINT, { method: "POST", body: JSON.stringify(data) })
-    .then(function (r) { return r.json(); })
-    .then(function (j) {
-      msg.textContent = j.ok ? "접수되었습니다. 곧 연락드릴게요!" : "접수하지 못했어요: " + (j.error || "다시 시도해 주세요.");
-      if (j.ok) f.reset();
-    })
-    .catch(function () { msg.textContent = "전송에 실패했어요. 전화로 문의해 주세요."; })
-    .finally(function () { b.disabled = false; });
-});
-</script>
+function bind(id, type) {
+  var f = document.getElementById(id), msg = f.querySelector("#msg, .fmsg"), b = f.querySelector("button[type=submit]");
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var data = { type: type };
+    new FormData(f).forEach(function (v, k) { data[k] = v; });
+    if (!String(data.name).trim() || !String(data.phone).trim()) { msg.textContent = "이름과 연락처를 입력해 주세요."; return; }
+    b.disabled = true; msg.textContent = "보내는 중...";
+    fetch(ENDPOINT, { method: "POST", body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        msg.textContent = j.ok ? "접수되었습니다. 곧 연락드릴게요!" : "접수하지 못했어요: " + (j.error || "다시 시도해 주세요.");
+        if (j.ok) f.reset();
+      })
+      .catch(function () { msg.textContent = "전송에 실패했어요. 전화로 문의해 주세요."; })
+      .finally(function () { b.disabled = false; });
+  });
+}
+bind("f", "inquiry");
+bind("jf", "job");</script>
 </body>
 </html>
